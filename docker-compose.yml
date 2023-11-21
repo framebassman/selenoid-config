@@ -7,8 +7,11 @@ services:
     ports:
       - "4444:4444"
     volumes:
-      - "$PWD:/etc/selenoid/" # assumed current dir contains browsers.json
+      - "$PWD/config:/etc/selenoid/" # assumed current dir contains browsers.json
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - "$PWD/video:/opt/selenoid/video/"
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=$PWD/video
   selenoid-ui:
     container_name: selenoid-ui
     image: "aerokube/selenoid-ui"
@@ -18,4 +21,3 @@ services:
     ports:
       - "8080:8080"
     command: ["--selenoid-uri", "http://selenoid:4444"]
-
